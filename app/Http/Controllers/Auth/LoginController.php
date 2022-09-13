@@ -22,9 +22,14 @@ class LoginController extends Controller
         ]);
 
         $user=User::wherePhone($validData['phone'])->first();
+        $request->session()->flash('auth' , [
+            'user_id' => $user->id,
+            'remember' => $request->has('remember')
+        ]);
+
         $code=ActiveCode::generateCode($user);
         $user->notify(new ActiveCodeNotification($code , $user->phone));
-
+        return redirect(route('auth.phone.token'));
     }
 }
 
