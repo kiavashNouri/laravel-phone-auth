@@ -30,4 +30,9 @@ class User extends Authenticatable
     protected $hidden = [
         'remember_token',
     ];
+
+    public function activeCode()
+    {
+        return $this->hasMany(ActiveCode::class);
+    }
 }

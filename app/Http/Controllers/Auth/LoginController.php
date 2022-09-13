@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActiveCode;
+use App\Models\User;
+use App\Notifications\ActiveCodeNotification;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -18,6 +21,10 @@ class LoginController extends Controller
             'phone' => ['required' , 'regex:/^09(1[0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}$/' ,'exists:users,phone']
         ]);
 
-        return $validData;
+        $user=User::wherePhone($validData['phone'])->first();
+        $code=ActiveCode::generateCode($user);
+        $user->notify(new ActiveCodeNotification($code , $user->phone));
+
     }
 }
+

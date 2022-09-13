@@ -22,5 +22,7 @@ Route::prefix('auth')->middleware('guest')->group(function () {
     Route::post('login',[\App\Http\Controllers\Auth\LoginController::class,'login']);
     Route::get('register',[\App\Http\Controllers\Auth\RegisterController::class,'showRegister'])->name('auth.register');
     Route::post('register',[\App\Http\Controllers\Auth\RegisterController::class,'Register']);
+    Route::get('token',[\App\Http\Controllers\Auth\TokenController::class,'showToken'])->name('auth.phone.token');
+    Route::get('token',[\App\Http\Controllers\Auth\TokenController::class,'Token'])->name('auth.phone.token');
 });
 
